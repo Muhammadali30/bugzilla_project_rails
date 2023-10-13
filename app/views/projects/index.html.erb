@@ -1,0 +1,17 @@
+<label for="user_id">Select Project:</label>
+<%= select_tag 'user_id', options_for_select(@projects.map { |u| [u.name, u.id] }, prompt: "Select Project"), id:'projects' %>
+<h1>Hello</h1>
+<%= current_user.name %> <%= current_user.user_type %> 
+<%= link_to "logout", destroy_user_session_path, data:{turbo_method: :delete} %>
+<%= link_to "Add new Project", new_project_path %>
+<div id="plist">
+<% @projects.each do |project| %>
+<div style="border:1px solid black;">
+<%= link_to "Edit", edit_project_path(project) %><br>
+<%= link_to "Show", project_path(project)%><br>
+<strong style="color:red;">Project Name</strong>
+<%= project.name%>
+
+</div>
+<%end%>
+</div>

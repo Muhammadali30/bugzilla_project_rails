@@ -1,0 +1,82 @@
+<%= link_to "Show All", projects_path %><br>
+
+<div style="border:1px solid black;">
+<%= link_to "Edit", edit_project_path(@project) %><br>
+<%= link_to "Delete", project_path(@project), data:{turbo_method: :delete}%><br>
+
+
+<strong style="color:red;">Project Name</strong>
+<%= @project.name%>
+<br>
+<strong style="color:red;">Project Bugs</strong><br>
+<% @project.bugs.each do |bug|%>
+<strong>Bug title</strong>
+<%= bug.title%>
+<br>
+<strong>Bug Description</strong>
+<%= bug.description%><br>
+<strong>Bug TYpe</strong>
+<%= bug.bug_type%><br>
+<strong>Bug Deadline</strong>
+<%= bug.deadline%><br>
+<strong>Bug status</strong>
+<%= bug.status%><br>
+<strong>Bug Developers</strong>
+<% bug.editors.each do |editor|%><br>
+<%= editor.name%><br>
+<%end%><br>
+<strong>Bug Creator</strong>
+<% bug.creators.each do |creator|%><br>
+<%= creator.name%><br>
+<%end%><br>
+<% if bug.image.attached? %>
+<strong>Bug Image</strong>
+<%= image_tag bug.image%><br>
+
+<%end%>
+<%= link_to "Edit Bug",edit_bug_path(bug)%>
+<%= link_to "Delete Bug",[bug.project,bug],
+data:{
+  turbo_method: :delete,
+  turbo_confirm: "Are you sure?"
+} %><br>
+<%end%>
+<strong style="color:red;">Users</strong><br>
+<% @project.users.each do |user|%>
+<%= user.name%>
+<%= user.user_type%>
+<br>
+
+<%end%>
+</div>
+<% if policy(Bug).hide_tag? %>
+<h2>Add a Bug</h2>
+<%= form_with model:[@project,@project.bugs.build] do
+  |f|%>
+<p>
+ <%= f.label :title %>
+  <%= f.text_field :title %>
+
+   <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= f.label :deadline %>
+  <%= f.datetime_field :deadline %>
+
+  <%= f.label :image %>
+  <%= f.file_field :image, accept: 'image/png , image/gif' %>
+
+   <%= f.label :bug_type, 'Select type:' %>
+    <%= f.select :bug_type, ['Feature', 'Bug'], { prompt: 'Select type' }, class: 'form-control', id: 'bug_type'  %>
+
+    <%= f.label :status, 'Select type:' %>
+    <%= f.select :status, ['New','Started'], { prompt: 'Select status' }, class: 'form-control', id: 'status'  %>
+
+</p>
+<p>
+<%= f.submit %>
+</p>
+<%end %>
+
+<% end %>
+

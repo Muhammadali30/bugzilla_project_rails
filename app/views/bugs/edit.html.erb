@@ -1,0 +1,26 @@
+<%= form_with model: @bug do
+  |f|%>
+<p>
+ <%= f.label :title %>
+  <%= f.text_field :title %>
+
+   <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= f.label :deadline %>
+  <%= f.datetime_field :deadline %>
+
+  <%= f.label :image %>
+  <%= f.file_field :image, accept: 'image/png , image/gif' %>
+
+   <%= f.label :bug_type, 'Select type:' %>
+    <%= f.select :bug_type, ['Feature', 'Bug'], { prompt: 'Select type' }, class: 'form-control', id: 'bug_type'  %>
+
+    <%= f.label :status, 'Select type:' %>
+    <%= f.select :status, ['New','Started'], { prompt: 'Select status' }, class: 'form-control', id: 'status'  %>
+
+</p>
+<p>
+<%= f.submit %>
+</p>
+<%end %>
