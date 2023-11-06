@@ -1,5 +1,5 @@
 class BugsController < ApplicationController
-    before_action :authorize_user, except: %i[index show]
+    before_action :authorize_user, except: %i[index]
 def create
     @project=Project.find(params[:project_id])
    if @bug=@project.bugs.create(bug_param)
@@ -15,16 +15,21 @@ def destroy
     end
 end
 def edit
-@bug=Bug.find(params[:id])
+    @bug=Bug.find(params[:id])
+
 end
 def update
-    @bug=Bug.find(params[:id])
-    if @bug.update(bug_param)
-        current_user.add_role :editor,@bug
-        redirect_to @bug
-    end
+        @bug=Bug.find(params[:id])
+        if @bug.update(bug_param)
+            if current_user.user_type=="Developer"
+                current_user.add_role :editor,@bug
+                redirect_to @bug, notice: "Assign to #{current_user.name} user"
+            else
+                redirect_to @bug,notice: "Bug Updated"
+            end
+        end
+  
 end
-
 private
 def bug_param
     params.require(:bug).permit(:title,:image,:deadline,:description,:bug_type,:status)

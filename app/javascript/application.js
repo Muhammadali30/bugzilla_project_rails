@@ -1,8 +1,11 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
+import "chartkick"
+import "Chart.bundle"
 
 
+//Turbo.session.drive = false 
 var select = document.getElementById('status');
     
 const selectElement = document.getElementById('bug_type');
@@ -12,7 +15,6 @@ const selectElement = document.getElementById('bug_type');
             addOption(event.target.value);
      
        
-      alert('Selected value:'+ event.target.value);
     });
   }
   function addOption(val) {

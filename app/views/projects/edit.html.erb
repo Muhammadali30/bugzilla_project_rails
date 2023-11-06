@@ -24,18 +24,24 @@
 </div> 
 <%
 =end%>
-<div data-controller="nested-form" data-nested-form-wrapper-selector-value=".tags-form-wrapper">
-    <template data-nested-form-target="template">
+<%
+=begin%>
+ <div data-controller="nested-form" data-nested-form-wrapper-selector-value=".tags-form-wrapper"> 
+<%
+=end%>
+   
+ <template data-nested-form-target="template">
       <%= form.fields_for :project_users, ProjectUser.new, child_index: 'NEW_RECORD' do |user_fields| %>
         <%= render 'projects/user_form', f: user_fields %>
       <% end %>
-    </template> 
+    </template>  
+
     <%= form.fields_for :project_users do |user_fields| %>
     <%= render "projects/user_form", f: user_fields %>
   <% end %>
     <div data-nested-form-target="target"></div>
     <%= link_to 'Add User (Developer / QA)', '#', data: { action: 'nested-form#add' } %>
-  </div>
+ 
 <div>
 <%= form.submit%>
 </div>

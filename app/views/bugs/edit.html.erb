@@ -1,6 +1,8 @@
+<p class="notice"><%= notice %></p>
 <%= form_with model: @bug do
   |f|%>
 <p>
+<% if policy(Bug).hide_form? %>
  <%= f.label :title %>
   <%= f.text_field :title %>
 
@@ -12,7 +14,7 @@
 
   <%= f.label :image %>
   <%= f.file_field :image, accept: 'image/png , image/gif' %>
-
+  <%end%>
    <%= f.label :bug_type, 'Select type:' %>
     <%= f.select :bug_type, ['Feature', 'Bug'], { prompt: 'Select type' }, class: 'form-control', id: 'bug_type'  %>
 

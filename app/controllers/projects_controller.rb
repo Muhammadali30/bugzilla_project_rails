@@ -1,24 +1,30 @@
 class ProjectsController < ApplicationController
     before_action :authorize_user, except: %i[index show]
+    before_action :set_id, except: %i[index new create]
     def index
-
         if params[:pid].present?
             project=Project.where(id: params[:pid])
         render json: project
     else
-     
-
-
-
-    @projects=Project.all
+        if current_user.Developer?
+            project_ids = []
+            Project.all.each do |project|
+                if project.users.present? && project.users.where(user_type: "Developer").pluck(:id).include?(current_user.id)
+                    project_ids << project.id
+                end
+            end
+            @projects = Project.where(id: project_ids)
+        else
+            @projects=Project.all
+        end
     end
 end
     def new
         @project=Project.new
         # @project.bugs.build
         @project.project_users.build
-
     end
+  
     def create
         @project=Project.new(project_params)
         @project.userid=current_user.id
@@ -27,23 +33,19 @@ end
         end
     end
     def edit
-        @project=Project.find(params[:id])
         if current_user.id == @project.userid
           else
             redirect_to projects_path, alert: 'You do not have permission to Edit this project.'
           end
     end
     def show
-        @project=Project.find(params[:id])
     end
     def update
-        @project=Project.find(params[:id])
         if @project.update(project_params)
             redirect_to projects_path
         end
     end
     def destroy
-        @project=Project.find(params[:id])
         if current_user.id == @project.userid
             # Perform your destroy logic here
             @project.destroy
@@ -58,11 +60,13 @@ end
     private
     def project_params
         params.require(:project).permit(:name,project_users_attributes: [:id,:user_id,:_destroy])
-
         # params.require(:project).permit(:name, bugs_attributes: [:id,:title,:image,:deadline,:description,:bug_type,:status,:_destroy],project_users_attributes: [:id,:user_id,:_destroy])
     end
     def authorize_user
         project = @project || Project
         authorize project
+      end
+      def set_id
+        @project=Project.find(params[:id])
       end
 end

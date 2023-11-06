@@ -10,13 +10,20 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
+
+       
+
+         def full_name
+          "#{name} - #{user_type}"
+        end
+
          #attr_accessor :name
 
          validates :name, presence: true
          validates :user_type, presence: true
 
-         enum role: { Manager: 0, Developer: 1, QA: 2 }
+         enum user_type: { Manager: "Manager", Developer: "Developer", QA: "QA" }
 
-         has_many :creator_posts, -> { where(roles: {name: :creator}) }, through: :roles, source: :resource, source_type: :Student
-         has_many :editor_posts, -> { where(roles: {name: :editor}) }, through: :roles, source: :resource, source_type: :Student
+         has_many :creator_bugs, -> { where(roles: {name: :creator}) }, through: :roles, source: :resource, source_type: :Bug
+         has_many :editor_bugs, -> { where(roles: {name: :editor}) }, through: :roles, source: :resource, source_type: :Bug
 end

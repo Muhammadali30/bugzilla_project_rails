@@ -1,10 +1,8 @@
+    <p class="notice"><%= notice %></p>
 <%= link_to "Show All", projects_path %><br>
-
 <div style="border:1px solid black;">
 <%= link_to "Edit", edit_project_path(@project) %><br>
 <%= link_to "Delete", project_path(@project), data:{turbo_method: :delete}%><br>
-
-
 <strong style="color:red;">Project Name</strong>
 <%= @project.name%>
 <br>
@@ -21,18 +19,17 @@
 <%= bug.deadline%><br>
 <strong>Bug status</strong>
 <%= bug.status%><br>
-<strong>Bug Developers</strong>
-<% bug.editors.each do |editor|%><br>
+<strong>Bug Assign to</strong>
+<% bug.developers.each do |editor|%><br>
 <%= editor.name%><br>
 <%end%><br>
 <strong>Bug Creator</strong>
-<% bug.creators.each do |creator|%><br>
+<% bug.creator.each do |creator|%><br>
 <%= creator.name%><br>
 <%end%><br>
 <% if bug.image.attached? %>
 <strong>Bug Image</strong>
 <%= image_tag bug.image%><br>
-
 <%end%>
 <%= link_to "Edit Bug",edit_bug_path(bug)%>
 <%= link_to "Delete Bug",[bug.project,bug],
@@ -46,7 +43,6 @@ data:{
 <%= user.name%>
 <%= user.user_type%>
 <br>
-
 <%end%>
 </div>
 <% if policy(Bug).hide_tag? %>
@@ -77,6 +73,5 @@ data:{
 <%= f.submit %>
 </p>
 <%end %>
-
 <% end %>
 

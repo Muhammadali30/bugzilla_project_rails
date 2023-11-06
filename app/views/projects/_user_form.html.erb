@@ -1,7 +1,15 @@
   <div class="nested-form-wrapper" data-new-record="<%= f.object.new_record? %>">
   
    <%= f.label :user_id %>
-    <%= f.collection_select(:user_id, User.where.not(user_type: 'Manager'), :id, :name ,prompt: "Select User") %>
+   <%= f.collection_select(:user_id, User.where.not(user_type: 'Manager'), :id, :full_name, { include_blank: "Select a value" }, { class: "form-control" }) %>
+
+    <%
+=begin%>
+ <%= f.collection_select(:user_id, User.where.not(user_type: 'Manager'), :id, :name ,prompt: "Select User") %>
+       <%= f.select(:user_id, options_for_select(User.where.not(user_type: 'Manager').map { |m| [ "#{m.name} - #{m.user_type}", m.id ] }), {}, { class: "form-control" }) %> 
+<%
+=end%>
+
   <button type="button" data-action="nested-form#remove">Remove User</button>
   <%= f.hidden_field :_destroy %>
 </div>

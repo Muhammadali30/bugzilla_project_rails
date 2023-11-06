@@ -1,0 +1,24 @@
+%label{:for => "user_id"} Select Project:
+= select_tag 'user_id', options_for_select(@projects.map { |u| [u.name, u.id] }, prompt: "Select Project"), :id => 'projects'
+%br
+%h5 User Name
+= current_user.name
+%br
+%h5 User Type
+= current_user.user_type
+%br
+%br
+= link_to "Logout", destroy_user_session_path, :data => { turbo_method: :delete }
+%br
+%br
+= link_to "Add new Project", new_project_path
+= line_chart({"2023-10-01" => 12, "2023-10-02" => 1, "2023-10-03" => 2,"2023-10-04" => 7,"2023-10-05" => 2,"2023-10-06" => 11,"2023-10-07" => 8,"2023-10-08" => 6,"2023-10-09" => 4,"2023-10-10" => 6,"2023-10-11" => 5,"2023-10-12" => 12})
+#plist
+  - @projects.each do |project|
+    %div{ style: "border: 1px solid black;" }
+      = link_to "Edit", edit_project_path(project)
+      %br
+      = link_to "Show", project_path(project)
+      %br
+      %strong{ style: "color: red;" } Project Name
+      = project.name
