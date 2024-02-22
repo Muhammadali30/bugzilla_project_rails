@@ -68,13 +68,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
 end
-gem 'devise'
-gem "rolify"
-gem "pundit", "~> 2.3"
-gem "rack-cors"
-gem "byebug"
-gem "hotwire-rails"
-gem 'haml'
-gem "chartkick"
-gem 'groupdate'
