@@ -1,2 +1,22 @@
-<h1>Add Student</h1>
-<%= render 'form'%>
+<h1>Add New Student</h1>
+<%= form_with model: @student do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :email %><br>
+    <%= form.text_field :email %>
+  </div>
+
+   <div>
+    <%= form.label :address_id %><br>
+    <%= form.select :address_id,options_for_select(Address.all.map {|
+    address| [address.city,address.id]})%>
+  </div>
+  <br>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

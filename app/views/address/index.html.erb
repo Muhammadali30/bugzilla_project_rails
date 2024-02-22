@@ -1,0 +1,48 @@
+<h1>Students Record</h1>
+<h3><%= link_to "Add New Student", new_student_path%></h3>
+<% if user_signed_in?%>
+  <h3>Signed in as {<%=current_user.email%>}</h3>
+  <%= link_to "Sign_out", destroy_user_session_path,  data: {
+                    turbo_method: :delete,
+                  } %>
+<% end %>
+<div>
+<h5 style="display:inline-block">Filter by City:</h5>
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    All
+  </button>
+  <br>
+  <div class="dropdown-menu dropdown-menu-right">
+  <% @address.each do |address| %>
+  <%= link_to address.city,"/address/#{address.id}" %><br>
+   
+  <%end%>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead>
+  <th>Student ID</th>
+<th>Student Name</th>
+<th>Student Email</th>
+<th>Student Address</th>
+<th>Show</th>
+<th>Delete</th>
+  </thead>
+  <tbody>
+    <% @address.each do |address| %>
+<% address.students.each do |stu| %>
+<tr>
+<td><%=stu.id%></td>
+<td><%=stu.name%></td>
+<td><%=stu.email%></td>
+<td><%=address.city%></td>
+<td><%= link_to "Edit","/students/#{stu.id}/edit" %></td>
+<td><%= link_to "Delete",student_path(stu), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  }%></td>
+</tr>
+<%end%>
+<%end %>
+  </tbody>
+</table>
